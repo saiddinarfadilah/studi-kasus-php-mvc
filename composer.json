@@ -1,0 +1,25 @@
+{
+    "name": "sdf/studi-kasus-php-mvc",
+    "description": "studi kasus belajar php mvc",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Said Dinar Fadilah",
+            "email": "saiddinarfadilah@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "9.5.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "StudiKasus\\PHP\\MVC\\" : "app"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "StudiKasus\\PHP\\MVC\\" : "tests"
+        }
+    }
+}
