@@ -1,4 +1,3 @@
-
 <div class="container">
     <?php if (isset($model["error"])) { ?>
         <div class="row">
@@ -24,5 +23,6 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Sign in</button>
+            <a href="/users/register" class="btn btn-primary">Registrasi New User</a>
         </form>
 </div>

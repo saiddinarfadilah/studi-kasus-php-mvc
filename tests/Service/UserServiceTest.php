@@ -8,17 +8,22 @@ use StudiKasus\PHP\MVC\Domain\User;
 use StudiKasus\PHP\MVC\Exception\ValidationException;
 use StudiKasus\PHP\MVC\Model\UserLoginRequest;
 use StudiKasus\PHP\MVC\Model\UserRegisterRequest;
+use StudiKasus\PHP\MVC\Repository\SessionRepositoryImpl;
 use StudiKasus\PHP\MVC\Repository\UserRepository;
 
 class UserServiceTest extends TestCase
 {
     private UserRepository $userRepository;
     private UserService $userService;
+    private SessionRepositoryImpl $sessionRepositoryImpl;
 
     protected function setUp(): void
     {
         $this->userRepository = new UserRepository(Database::getConnection());
         $this->userService = new UserService($this->userRepository);
+        $this->sessionRepositoryImpl = new SessionRepositoryImpl(Database::getConnection());
+
+        $this->sessionRepositoryImpl->deleteAll();
 
         $this->userRepository->deleteAll();
     }

@@ -9,10 +9,13 @@ use StudiKasus\PHP\MVC\Domain\User;
 class UserRepositoryTest extends TestCase
 {
     private UserRepository $userRepository;
+    private SessionRepositoryImpl $sessionRepositoryImpl;
 
     protected function setUp(): void
     {
         $this->userRepository = new UserRepository(Database::getConnection());
+        $this->sessionRepositoryImpl = new SessionRepositoryImpl(Database::getConnection());
+        $this->sessionRepositoryImpl->deleteAll();
         $this->userRepository->deleteAll();
     }
 
