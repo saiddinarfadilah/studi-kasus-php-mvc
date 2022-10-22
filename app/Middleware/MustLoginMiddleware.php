@@ -1,6 +1,6 @@
 <?php
 
-namespace StudiKasus\PHP\MVC\Controller;
+namespace StudiKasus\PHP\MVC\Middleware;
 
 use StudiKasus\PHP\MVC\App\View;
 use StudiKasus\PHP\MVC\Config\Database;
@@ -8,10 +8,9 @@ use StudiKasus\PHP\MVC\Repository\SessionRepositoryImpl;
 use StudiKasus\PHP\MVC\Repository\UserRepository;
 use StudiKasus\PHP\MVC\Service\SessionServiceImpl;
 
-class HomeController
+class MustLoginMiddleware implements Middleware
 {
     private SessionServiceImpl $sessionServiceImpl;
-
     public function __construct()
     {
         $userRepository = new UserRepository(Database::getConnection());
@@ -19,23 +18,11 @@ class HomeController
         $this->sessionServiceImpl = new SessionServiceImpl($sessionRepository, $userRepository);
     }
 
-    public function dashboard():void
+    public function before(): void
     {
         $user = $this->sessionServiceImpl->current();
         if ($user == null){
-            $model = [
-                "title" => "login"
-            ];
-            View::render("User/login",$model);
-        } else {
-            $model = [
-                "title" => "dashboard",
-                "user" => [
-                    "name" => $user->getUsername()
-                ]
-            ];
-
-            View::render("User/index", $model);
+            View::redirect("/users/login");
         }
     }
 }

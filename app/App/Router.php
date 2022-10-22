@@ -6,13 +6,14 @@ class Router
 {
     private static array $routes = [];
 
-    public static function add(string $methodRequest, string $path, string $controller, string $function):void
+    public static function add(string $methodRequest, string $path, string $controller, string $function, array $middlewares = []):void
     {
         self::$routes[] = [
             "requestMethod" => $methodRequest,
             "path"          => $path,
             "controller"    => $controller,
-            "function"      => $function
+            "function"      => $function,
+            "middleware"    => $middlewares
         ];
     }
 
@@ -31,6 +32,10 @@ class Router
             // menggunakan regex untuk mengambil path variable di params
             $pattern = "#^" . $route["path"] . "$#";
             if ($requestMethod == $route["requestMethod"] && preg_match($pattern,$path, $matches)){
+                foreach ($route["middleware"] as $middleware){
+                    $instance = new $middleware ;
+                    $instance->before();
+                }
                 $function = $route["function"];
                 $controller = new $route["controller"];
 //                $controller->$function();
