@@ -14,3 +14,8 @@ CREATE TABLE sessions(
 
 ALTER TABLE sessions
 ADD CONSTRAINT fk_sessions_users FOREIGN KEY sessions(user_id) REFERENCES users(id);
+
+ALTER TABLE sessions
+MODIFY COLUMN id VARCHAR(255) ;
+
+SHOW CREATE TABLE sessions;
