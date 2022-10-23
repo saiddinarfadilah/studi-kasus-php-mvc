@@ -5,7 +5,7 @@
         </div>
         <div class="card-body">
             <h5 class="card-title">Hello <?= $model["user"]["name"];?></h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <p class="card-text"></p>
             <a href="/users/logout" class="btn btn-primary">Logout</a>
             <a href="/users/profile" class="btn btn-primary">Update Profile</a>
             <a href="/users/password" class="btn btn-primary">Update Password</a>

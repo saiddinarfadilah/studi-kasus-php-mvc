@@ -7,6 +7,7 @@ use StudiKasus\PHP\MVC\Config\Database;
 use StudiKasus\PHP\MVC\Exception\ValidationException;
 use StudiKasus\PHP\MVC\Model\UserLoginRequest;
 use StudiKasus\PHP\MVC\Model\UserRegisterRequest;
+use StudiKasus\PHP\MVC\Model\UserUpdateProfileRequest;
 use StudiKasus\PHP\MVC\Repository\SessionRepositoryImpl;
 use StudiKasus\PHP\MVC\Repository\UserRepository;
 use StudiKasus\PHP\MVC\Service\SessionServiceImpl;
@@ -75,6 +76,43 @@ class UserController
                 "title" => "Login",
                 "error" => $exception->getMessage()
             ]);
+        }
+    }
+
+    public function formUpdateProfile():void
+    {
+        $user = $this->sessionServiceImpl->current();
+        $model = [
+            "title" => "Update user profile",
+            "user" => [
+                "id" => $user->getId(),
+                "name" => $user->getUsername()
+            ]
+        ];
+        View::render("User/profile", $model);
+    }
+
+    public function postUpdateProfile():void
+    {
+        $user = $this->sessionServiceImpl->current();
+
+        $request = new UserUpdateProfileRequest();
+        $request->setId($user->getId());
+        $request->setUserName($_POST["username"]);
+
+        try {
+            $this->userService->updateProfile($request);
+            View::redirect("/");
+        } catch (ValidationException $exception){
+            $model = [
+                "title" => "Update user profile",
+                "error" => $exception->getMessage(),
+                "user" => [
+                    "id" => $user->getId(),
+                    "name" => $_POST["username"]
+                ]
+            ];
+            View::render("User/profile", $model);
         }
     }
 

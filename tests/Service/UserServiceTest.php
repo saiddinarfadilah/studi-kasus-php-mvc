@@ -8,6 +8,7 @@ use StudiKasus\PHP\MVC\Domain\User;
 use StudiKasus\PHP\MVC\Exception\ValidationException;
 use StudiKasus\PHP\MVC\Model\UserLoginRequest;
 use StudiKasus\PHP\MVC\Model\UserRegisterRequest;
+use StudiKasus\PHP\MVC\Model\UserUpdateProfileRequest;
 use StudiKasus\PHP\MVC\Repository\SessionRepositoryImpl;
 use StudiKasus\PHP\MVC\Repository\UserRepository;
 
@@ -116,6 +117,26 @@ class UserServiceTest extends TestCase
         $request->setPassword("rahasiaaaaa");
 
         $this->userService->login($request);
+
+    }
+
+    public function testUpdateProfileSuccess()
+    {
+        $user = new User();
+        $user->setId("said");
+        $user->setUsername("Said");
+        $user->setPassword(password_hash("rahasia", PASSWORD_BCRYPT));
+        $this->userRepository->save($user);
+
+        $request = new UserUpdateProfileRequest();
+        $request->setId("said");
+        $request->setUserName("Saidupdate");
+
+        $this->userService->updateProfile($request);
+
+        $result = $this->userRepository->findById($user->getId());
+
+        self::assertEquals($request->getUserName(), $result->getUsername());
 
     }
 }
