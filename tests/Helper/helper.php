@@ -4,3 +4,9 @@ namespace StudiKasus\PHP\MVC\Service{
         echo "$name: $value";
     }
 }
+
+namespace StudiKasus\PHP\MVC\App{
+    function header(string $value){
+        echo $value;
+    }
+}

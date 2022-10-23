@@ -9,8 +9,6 @@ Login Management System With PHP MVC , Composer And Database MySQL.
 ## Instalation
 - clone this repository
 - run "composer install" from your console in directory repository
-- run "composer update" your console from your console in directory repository
-- run "composer dumpt-autoload" your console from your console in directory repository
 - run "composer update" from your console in directory repository
 - run "composer dumpt-autoload" from your console in directory repository
 - run your local web server and mysql, example : xampp

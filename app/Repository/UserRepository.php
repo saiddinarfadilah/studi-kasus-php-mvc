@@ -21,6 +21,14 @@ class UserRepository
         return $user;
     }
 
+    public function update(User $user):User
+    {
+        $sql = "UPDATE users SET username = ?, password = ? WHERE id = ?";
+        $statement = $this->connection->prepare($sql);
+        $statement->execute([$user->getUsername(), $user->getPassword(), $user->getId()]);
+        return $user;
+    }
+
     public function findById(string $id):?User
     {
         $sql = "SELECT id, username, password FROM users WHERE id = ?";
