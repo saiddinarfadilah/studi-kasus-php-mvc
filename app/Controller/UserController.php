@@ -7,6 +7,7 @@ use StudiKasus\PHP\MVC\Config\Database;
 use StudiKasus\PHP\MVC\Exception\ValidationException;
 use StudiKasus\PHP\MVC\Model\UserLoginRequest;
 use StudiKasus\PHP\MVC\Model\UserRegisterRequest;
+use StudiKasus\PHP\MVC\Model\UserUpdatePasswordRequest;
 use StudiKasus\PHP\MVC\Model\UserUpdateProfileRequest;
 use StudiKasus\PHP\MVC\Repository\SessionRepositoryImpl;
 use StudiKasus\PHP\MVC\Repository\UserRepository;
@@ -113,6 +114,42 @@ class UserController
                 ]
             ];
             View::render("User/profile", $model);
+        }
+    }
+
+    public function formUpdatePassword():void
+    {
+        $user = $this->sessionServiceImpl->current();
+        $model = [
+            "title" => "Update password",
+            "user" => [
+                "id" => $user->getId(),
+            ]
+        ];
+        View::render("User/password", $model);
+    }
+
+    public function postUpdatePassword():void
+    {
+        $user = $this->sessionServiceImpl->current();
+
+        $request = new UserUpdatePasswordRequest();
+        $request->setId($user->getId());
+        $request->setOldPassword($_POST["oldPassword"]);
+        $request->setNewPassword($_POST["newPassword"]);
+
+        try {
+            $this->userService->updatePassword($request);
+            View::redirect("/");
+        } catch (ValidationException $exception){
+            $model = [
+                "title" => "Update password",
+                "error" => $exception->getMessage(),
+                "user" => [
+                    "id" => $user->getId(),
+                ]
+            ];
+            View::render("User/password", $model);
         }
     }
 

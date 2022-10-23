@@ -25,6 +25,9 @@ Router::add("POST","/users/register",UserController::class, "postRegister", [Mus
 Router::add("GET","/users/profile",UserController::class, "formUpdateProfile", [MustLoginMiddleware::class]);
 Router::add("POST","/users/profile",UserController::class, "postUpdateProfile", [MustLoginMiddleware::class]);
 
+Router::add("GET","/users/password",UserController::class, "formUpdatePassword", [MustLoginMiddleware::class]);
+Router::add("POST","/users/password",UserController::class, "postUpdatePassword", [MustLoginMiddleware::class]);
+
 Router::add("GET","/categories/([0-9a-zA-Z]*)",ProductController::class, "categories");
 
 Router::run();

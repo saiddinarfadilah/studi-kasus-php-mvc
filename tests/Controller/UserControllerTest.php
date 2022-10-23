@@ -75,6 +75,31 @@ namespace StudiKasus\PHP\MVC\Controller{
             $result = $this->userRepository->findById("said");
             self::assertEquals($_POST["username"], $result->getUsername());
         }
+
+        public function testUpdatePasswordSuccess()
+        {
+            $user = new User();
+            $user->setId("said");
+            $user->setUsername("Said");
+            $user->setPassword(password_hash("rahasia", PASSWORD_BCRYPT));
+            $this->userRepository->save($user);
+
+            $session = new Session();
+            $session->setId(uniqid());
+            $session->setUserId($user->getId());
+            $this->sessionRepositoryImpl->save($session);
+
+            $_COOKIE[SessionServiceImpl::$COOKIE_NAME] = $session->getId();
+
+            $_POST["oldPassword"] = "rahasia";
+            $_POST["newPassword"] = "rahasiaupdate";
+
+            $this->userController->postUpdatePassword();
+            $this->expectOutputRegex("[Location: /]");
+
+            $result = $this->userRepository->findById($user->getId());
+            self::assertTrue(password_verify($_POST["newPassword"], $result->getPassword()));
+        }
     }
 }
 
